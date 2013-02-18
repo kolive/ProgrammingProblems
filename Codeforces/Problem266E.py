@@ -16,14 +16,18 @@ class AssignQuery:
     else:
       raise StopIteration
 
-def sum(array, r, l, k):
+
+def sum(array, k):
+  it = iter(array)
   accum_value = 0
-  for i in range(l, r+1):
-    accum_value = summation(accum_value, array[i], i, l, k)
+  count = 0
+  for x in it:
+    accum_value = summation(accum_value, x, count, k)
+    count = count + 1
   return accum_value 
 
-def summation(accum_value, next_value, i, l, k):
-  next_value = next_value * (i-l+1)**k
+def summation(accum_value, next_value, count, k):
+  next_value = next_value * (count+1)**k
   return (accum_value + next_value) % 1000000007
 
 params = sys.stdin.readlines()
@@ -44,7 +48,7 @@ for i in range(int(m)):
   qv = int(query[3])
   if(query[0] == "?"):
     #sum
-    print sum(array, qr, ql, qv)
+    print sum(array[ql:qr+1], qv)
   elif(query[0] == "="):
     #assign
     tmp = AssignQuery(qv, qr - ql)
