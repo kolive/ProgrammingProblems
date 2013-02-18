@@ -1,0 +1,45 @@
+#n groups of schoolchildren
+# the i'th group has 1 <= s_i <= 4 friends
+# each taxi can take up to 4 people
+# determine min # of taxis if groups can't be split up
+import sys
+
+""" Solve Problem 158B """
+params = sys.stdin.readlines()
+n =int(params[0])
+s = params[1].split(' ')
+count = 0
+passengers = 0
+search = 4
+for i in range(n):
+  s[i] = int(s[i])
+
+for i in range(n):
+  #try to find a group to fill a car
+  try:
+    v = s.index(search)    
+
+    #stuff group into cab
+    del s[v]
+    passengers+=search
+
+    #calculate how many passengers to fill cab
+    search = search - passengers
+
+  except ValueError:
+    #if no group of optimal size, find next biggest
+    search = search -1
+    i = i - 1
+
+  #if car is full or not able to fit any of the groups
+  #send off the taxi
+  if(passengers == 4 or search <= 0):
+    count = count + 1
+    search = 4
+    passengers = 0
+
+
+#if(len(s) != 0):
+#  count = count + 1
+
+print count
